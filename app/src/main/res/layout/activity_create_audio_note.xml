@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/imageButtonClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
@@ -28,7 +28,7 @@
             app:srcCompat="@drawable/baseline_close_24" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/imageButtonSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="32dp"
+        android:hint="@string/title_note"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
@@ -55,18 +56,20 @@
         android:id="@+id/imageButtonPlayAudioFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="32dp"
         android:layout_marginHorizontal="24dp"
+        android:layout_marginVertical="32dp"
         android:background="@drawable/image_button_background_light_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTitleNote"
-        app:maxImageSize="32dp" />
+        app:maxImageSize="32dp"
+        app:srcCompat="@drawable/baseline_play_arrow_24" />
 
-    <TextView
+    <Chronometer
         android:id="@+id/timingAudioFragment"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginRight="24dp"
+        android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageButtonPlayAudioFragment"
         app:layout_constraintEnd_toStartOf="@+id/imageButtonPlayAudioFragment"
         app:layout_constraintTop_toTopOf="@+id/imageButtonPlayAudioFragment" />

@@ -5,23 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="18dp"
-    android:background="@drawable/audio_note_background">
+    android:layout_marginTop="16dp"
+    android:background="@drawable/audio_note_background"
+    android:elevation="4dp">
 
     <TextView
         android:id="@+id/titleNotes"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:layout_marginVertical="8dp"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/dateTimeCreateNotes"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
         android:layout_marginVertical="8dp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/progressBarAudioPlaybackNotes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleNotes" />
@@ -30,18 +34,22 @@
         android:id="@+id/imageButtonPlayAudioNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="22dp"
         android:layout_marginRight="12dp"
         android:background="@drawable/image_button_background_light_blue"
-        app:maxImageSize="32dp"
+        android:tag="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="16dp"
+        app:srcCompat="@drawable/baseline_play_arrow_24" />
 
-    <TextView
+    <Chronometer
         android:id="@+id/timingAudioNotes"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageButtonPlayAudioNotes"
         app:layout_constraintTop_toTopOf="parent" />
