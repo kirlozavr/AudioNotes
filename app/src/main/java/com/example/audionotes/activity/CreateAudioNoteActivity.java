@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -21,7 +19,6 @@ import com.example.audionotes.common.DateFormat;
 import com.example.audionotes.common.TimeMapper;
 import com.example.audionotes.entity.AudioNoteEntity;
 import com.example.audionotes.service.MediaPlayService;
-import com.example.audionotes.service.OnProgress;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -38,7 +35,7 @@ public class CreateAudioNoteActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private DataBaseManager dataBaseManager;
     private MediaPlayService mediaPlayService;
-    private OnProgress onProgress;
+    private ProgressBarUpdate progressBarUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +48,13 @@ public class CreateAudioNoteActivity extends AppCompatActivity {
         initView();
         onClick();
 
-        onProgress = new OnProgress() {
-            @Override
-            public void progress(int progress) {
-                progressBar.setProgress(progress);
-                if(progressBar.getMax() == progress){
-                    stopPlay();
-                }
-            }
-        };
-        mediaPlayService = new MediaPlayService(onProgress);
+        progressBarUpdate = new ProgressBarUpdate();
+        mediaPlayService = new MediaPlayService();
         dataBaseManager = new DataBaseManager(this);
+        mediaPlayService.setFileAbsolutePath(
+                getIntent().getStringExtra(ConstValues.KEY_FILE_PATH)
+                + getIntent().getStringExtra(ConstValues.KEY_FILE_NAME)
+        );
     }
 
     private void initView() {
@@ -149,23 +142,27 @@ public class CreateAudioNoteActivity extends AppCompatActivity {
         });
     }
 
-    public void startPlay(){
+    public void startPlay() {
         isPlay = true;
         imageButtonPlayAudioNote.setBackgroundResource(R.drawable.image_button_background_grey);
         imageButtonPlayAudioNote.setImageResource(R.drawable.baseline_pause_24);
-        mediaPlayService.start(
+        mediaPlayService.setFileAbsolutePath(
                 getIntent().getStringExtra(ConstValues.KEY_FILE_PATH)
                         + getIntent().getStringExtra(ConstValues.KEY_FILE_NAME)
         );
+        mediaPlayService.start();
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
         progressBar.setMax(mediaPlayService.length());
+        progressBar.postDelayed(progressBarUpdate, 100);
     }
 
-    public void stopPlay(){
+    public void stopPlay() {
         isPlay = false;
         imageButtonPlayAudioNote.setBackgroundResource(R.drawable.image_button_background_light_blue);
         imageButtonPlayAudioNote.setImageResource(R.drawable.baseline_play_arrow_24);
+        progressBar.removeCallbacks(progressBarUpdate);
+        progressBar.setProgress(0);
         mediaPlayService.stop();
         chronometer.stop();
     }
@@ -185,6 +182,19 @@ public class CreateAudioNoteActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AudioNotesActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private class ProgressBarUpdate implements Runnable {
+
+        @Override
+        public void run() {
+                if (!mediaPlayService.isPlaying()) {
+                    stopPlay();
+                } else {
+                    progressBar.setProgress(mediaPlayService.getProgress());
+                    progressBar.postDelayed(this, 100);
+                }
+        }
     }
 
 }
