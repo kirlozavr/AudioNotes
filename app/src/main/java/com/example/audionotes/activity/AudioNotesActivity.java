@@ -23,11 +23,18 @@ import com.example.audionotes.R;
 import com.example.audionotes.adapter.RecyclerViewAdapterAudioNotes;
 import com.example.audionotes.common.ConstValues;
 import com.example.audionotes.common.DateFormat;
+import com.example.audionotes.dto.AudioNoteDto;
 import com.example.audionotes.entity.AudioNoteEntity;
+import com.example.audionotes.mapper.AudioNoteMapper;
+import com.example.audionotes.mapper.Mapper;
 import com.example.audionotes.service.MediaRecorderService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AudioNotesActivity extends AppCompatActivity {
 
@@ -51,7 +58,7 @@ public class AudioNotesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        initAudioNotes();
+        initRecyclerView();
     }
 
     public void init() {
@@ -73,11 +80,18 @@ public class AudioNotesActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerAdapter);
     }
 
-    public void initAudioNotes() {
-        List<AudioNoteEntity> allEntityList;
+    public void initRecyclerView() {
+        AudioNoteMapper mapper = new AudioNoteMapper();
         dataBaseManager.open();
-        allEntityList = dataBaseManager.getAllEntity();
-        recyclerAdapter.setList(allEntityList);
+        List<AudioNoteDto> allNotesList = dataBaseManager
+                .getAllEntity()
+                .stream()
+                .sorted(
+                        Comparator.comparing(AudioNoteEntity::getDateCreateNote)
+                                .thenComparing(Comparator.comparing(AudioNoteEntity::getTimeCreateNote))
+                ).map(e -> mapper.getDtoToEntity(e))
+                .collect(Collectors.toList());
+        recyclerAdapter.setList(allNotesList);
     }
 
     @SuppressLint("ClickableViewAccessibility")
