@@ -46,6 +46,8 @@ public class MediaRecorderService {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (Exception e){
+
         }
     }
 
