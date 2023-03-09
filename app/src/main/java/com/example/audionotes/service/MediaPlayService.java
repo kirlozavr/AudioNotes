@@ -28,12 +28,15 @@ public class MediaPlayService {
 
     public void setFileAbsolutePath(String fileAbsolutePath) {
         this.fileAbsolutePath = fileAbsolutePath;
+
         try {
-            mediaPlayer.setDataSource(fileAbsolutePath);
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(this.fileAbsolutePath);
             mediaPlayer.prepare();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public void start() {
@@ -44,9 +47,7 @@ public class MediaPlayService {
 
         if (fileAbsolutePath.equals("") || fileAbsolutePath.length() != 0) {
             isPlaying = true;
-
             mediaPlayer.start();
-
         }
     }
 
@@ -65,7 +66,6 @@ public class MediaPlayService {
     }
 
     public int length() {
-        Log.i("папа", String.valueOf(mediaPlayer.getDuration()));
         return mediaPlayer.getDuration();
     }
 }
