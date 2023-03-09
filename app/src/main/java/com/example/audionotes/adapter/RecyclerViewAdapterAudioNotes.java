@@ -88,6 +88,7 @@ public class RecyclerViewAdapterAudioNotes
                         if (!audioNoteDto.isPlay()) {
                             if (mediaPlayService.isPlaying()) {
                                 notifyItemChanged(playingPosition);
+                                mediaPlayService.stop();
                             }
                             playingPosition = position;
                             mediaPlayService.setFileAbsolutePath(
