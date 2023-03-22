@@ -1,5 +1,6 @@
 package com.example.audionotes.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.audionotes.DataBase.DataBaseManager;
+import com.example.audionotes.database.DataBaseManager;
 import com.example.audionotes.R;
 import com.example.audionotes.common.ConstValues;
 import com.example.audionotes.common.DateFormat;
@@ -26,6 +27,7 @@ import java.time.LocalTime;
 
 public class CreateAudioNoteActivity extends AppCompatActivity {
 
+    private static final String TITLE_NAME = "titleName";
     private boolean isPlay = false;
     private ImageButton imageButtonClose;
     private ImageButton imageButtonSave;
@@ -44,6 +46,25 @@ public class CreateAudioNoteActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(editTextTitleNote.getText().toString().length() > 0){
+            outState.putString(
+                    TITLE_NAME,
+                    editTextTitleNote.getText().toString()
+            );
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        editTextTitleNote.setText(
+                savedInstanceState.getString(TITLE_NAME)
+        );
+    }
+
     private void init() {
         initView();
         onClick();
@@ -53,7 +74,7 @@ public class CreateAudioNoteActivity extends AppCompatActivity {
         dataBaseManager = new DataBaseManager(this);
         mediaPlayService.setFileAbsolutePath(
                 getIntent().getStringExtra(ConstValues.KEY_FILE_PATH)
-                + getIntent().getStringExtra(ConstValues.KEY_FILE_NAME)
+                        + getIntent().getStringExtra(ConstValues.KEY_FILE_NAME)
         );
     }
 
