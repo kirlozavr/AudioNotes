@@ -1,4 +1,4 @@
-package com.example.audionotes.DataBase;
+package com.example.audionotes.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

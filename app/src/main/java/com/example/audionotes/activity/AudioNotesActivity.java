@@ -18,7 +18,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.audionotes.DataBase.DataBaseManager;
+import com.example.audionotes.database.DataBaseManager;
 import com.example.audionotes.R;
 import com.example.audionotes.adapter.RecyclerViewAdapterAudioNotes;
 import com.example.audionotes.common.ConstValues;
@@ -26,12 +26,9 @@ import com.example.audionotes.common.DateFormat;
 import com.example.audionotes.dto.AudioNoteDto;
 import com.example.audionotes.entity.AudioNoteEntity;
 import com.example.audionotes.mapper.AudioNoteMapper;
-import com.example.audionotes.mapper.Mapper;
 import com.example.audionotes.service.MediaRecorderService;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
